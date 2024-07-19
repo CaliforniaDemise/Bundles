@@ -75,7 +75,7 @@ public class ConfigHandler {
     }
 
     public static boolean canPutItem(ItemStack stack) {
-        LogManager.getLogger("canPutItem").info(itemSet.contains(stack));
+        if (stack.isEmpty()) return false;
         boolean blacklist = isBlackList != itemSet.contains(stack);
         boolean tools = allowTools || (!stack.isItemStackDamageable() && !(stack.getItem() instanceof ItemTool));
         boolean storage = allowStorageItems || (!stack.hasTagCompound() || !hasAnyKeys(Objects.requireNonNull(stack.getTagCompound()), "BlockEntityTag", "Items"));

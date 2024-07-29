@@ -26,8 +26,6 @@ public abstract class ContainerMixin {
 
     @Inject(method = "slotClick", at = @At("HEAD"), cancellable = true)
     public void slotClick(int slotId, int dragType, ClickType clickTypeIn, EntityPlayer player, CallbackInfoReturnable<ItemStack> cir) {
-        System.out.println("type: " + dragType + "      event: " + dragEvent);
-
         if (slotId >= 0 && slotId < this.inventorySlots.size()) {
             Slot slot = this.inventorySlots.get(slotId);
             ItemStack stack = player.inventory.getItemStack();

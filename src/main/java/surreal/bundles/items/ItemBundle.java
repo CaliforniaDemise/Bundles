@@ -15,6 +15,8 @@ import net.minecraft.util.*;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import surreal.bundles.Bundles;
 import surreal.bundles.ModSounds;
 import surreal.bundles.config.ConfigHandler;
@@ -48,10 +50,12 @@ public class ItemBundle extends Item {
     }
 
     // Tooltip
-    @ParametersAreNonnullByDefault
+    @SideOnly(Side.CLIENT)
     @Override
+    @ParametersAreNonnullByDefault
     public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> tooltip, ITooltipFlag flagIn) {
         if (stack.hasTagCompound()) {
+            if (ConfigHandler.allowCustomColors && getColor(stack) != 13464390) tooltip.add(I18n.format("item.bundles.bundle.dyed"));
             int size = getItemAmount(stack);
             String str = I18n.format("item.bundles.bundle.fullness", size, ConfigHandler.bundleLimit);
 
@@ -250,7 +254,9 @@ public class ItemBundle extends Item {
         NBTTagCompound tag = Objects.requireNonNull(bundle.getTagCompound());
         if (!tag.hasKey(COLOR)) return def;
 
-        return tag.getInteger(COLOR);
+        int color = tag.getInteger(COLOR);
+        if (color <= 0) return def;
+        return color;
     }
 
     public static void setColor(ItemStack bundle, int color) {

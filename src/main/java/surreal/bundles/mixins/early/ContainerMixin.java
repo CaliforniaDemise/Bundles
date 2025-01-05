@@ -2,9 +2,7 @@ package surreal.bundles.mixins.early;
 
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.ClickType;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.*;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -35,7 +33,7 @@ public abstract class ContainerMixin {
                     int itemAmount = ItemBundle.getItemAmount(stack);
 
                     if (slot.getHasStack() && slot.canTakeStack(player) && itemAmount < ConfigHandler.bundleLimit && ConfigHandler.canPutItem(slot.getStack())) {
-                        bundles$insertItem(player, stack, slot.getStack());
+                        bundles$insertItem(player, stack, slot.getStack(), slot);
                         cir.setReturnValue(ItemStack.EMPTY);
                     }
                     else if (itemAmount > 0) {
@@ -46,8 +44,8 @@ public abstract class ContainerMixin {
                 else if (slot.getStack().getItem() instanceof ItemBundle) {
                     int itemAmount = ItemBundle.getItemAmount(slot.getStack());
 
-                    if (!stack.isEmpty() && itemAmount < ConfigHandler.bundleLimit && ConfigHandler.canPutItem(stack)) {
-                        bundles$insertItem(player, slot.getStack(), stack);
+                    if (!stack.isEmpty() && itemAmount < ConfigHandler.bundleLimit && ConfigHandler.canPutItem(stack) && slot.canTakeStack(player)) {
+                        bundles$insertItem(player, slot.getStack(), stack, slot);
                         cir.setReturnValue(ItemStack.EMPTY);
                     }
                     else if (itemAmount > 0) {
@@ -60,9 +58,9 @@ public abstract class ContainerMixin {
     }
 
     @Unique
-    private void bundles$insertItem(EntityPlayer player, ItemStack bundle, ItemStack stackToAdd) {
+    private void bundles$insertItem(EntityPlayer player, ItemStack bundle, ItemStack stackToAdd, Slot slot) {
         if (player.world.isRemote) player.playSound(ModSounds.INSERT, 1, 1);
-        ItemBundle.addItem(bundle, stackToAdd);
+        ItemBundle.addItem(bundle, slot.onTake(player, stackToAdd));
     }
 
     @Unique

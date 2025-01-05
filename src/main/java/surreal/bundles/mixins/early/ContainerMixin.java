@@ -68,6 +68,7 @@ public abstract class ContainerMixin {
     @Unique
     private void bundles$removeItem(EntityPlayer player, ItemStack bundle, Slot slotInventory) {
         if (slotInventory.getHasStack()) {
+            if (slotInventory.getStack().getMaxStackSize() == slotInventory.getStack().getCount()) return;
             for (int i = 0; i < ItemBundle.getSlotCount(bundle); i++) {
                 ItemStack stack = ItemBundle.getItem(bundle, i);
                 if (Container.canAddItemToSlot(slotInventory, stack, true) && slotInventory.isItemValid(stack)) {

@@ -48,7 +48,7 @@ public abstract class ContainerMixin {
                         bundles$insertItem(player, slot.getStack(), stack, slot);
                         cir.setReturnValue(ItemStack.EMPTY);
                     }
-                    else if (itemAmount > 0) {
+                    else if (itemAmount > 0 && stack.isEmpty()) {
                         bundles$removeHeldItem(player, slot.getStack());
                         cir.setReturnValue(ItemStack.EMPTY);
                     }

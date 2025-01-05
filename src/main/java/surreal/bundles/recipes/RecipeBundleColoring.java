@@ -51,6 +51,27 @@ public class RecipeBundleColoring extends IForgeRegistryEntry.Impl<IRecipe> impl
                     itemstack = itemstack1.copy();
 
                     int l = ItemBundle.getColor(itemstack);
+                    if (l < 0) {
+                        EnumDyeColor col = EnumDyeColor.byDyeDamage(-l);
+                        switch (col) {
+                            case WHITE: l = 16383998; break;
+                            case ORANGE: l = 16351261; break;
+                            case MAGENTA: l = 13061821; break;
+                            case LIGHT_BLUE: l = 3847130; break;
+                            case YELLOW: l = 16701501; break;
+                            case LIME: l = 8439583; break;
+                            case PINK: l = 15961002; break;
+                            case GRAY: l = 4673362; break;
+                            case SILVER: l = 10329495; break;
+                            case CYAN: l = 1481884; break;
+                            case PURPLE: l = 8991416; break;
+                            case BLUE: l = 3949738; break;
+                            case BROWN: l = 8606770; break;
+                            case GREEN: l = 6192150; break;
+                            case RED: l = 11546150; break;
+                            case BLACK: l = 1908001; break;
+                        }
+                    }
                     float f = (float)(l >> 16 & 255) / 255.0F;
                     float f1 = (float)(l >> 8 & 255) / 255.0F;
                     float f2 = (float)(l & 255) / 255.0F;

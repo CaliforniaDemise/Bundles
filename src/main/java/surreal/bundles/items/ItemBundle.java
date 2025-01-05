@@ -250,13 +250,9 @@ public class ItemBundle extends Item {
     public static int getColor(ItemStack bundle) {
         int def = 13464390;
         if (!bundle.hasTagCompound()) return def;
-
         NBTTagCompound tag = Objects.requireNonNull(bundle.getTagCompound());
         if (!tag.hasKey(COLOR)) return def;
-
-        int color = tag.getInteger(COLOR);
-        if (color <= 0) return def;
-        return color;
+        return tag.getInteger(COLOR);
     }
 
     public static void setColor(ItemStack bundle, int color) {

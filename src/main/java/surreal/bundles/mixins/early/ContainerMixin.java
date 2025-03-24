@@ -27,11 +27,9 @@ public abstract class ContainerMixin {
         if (slotId >= 0 && slotId < this.inventorySlots.size()) {
             Slot slot = this.inventorySlots.get(slotId);
             ItemStack stack = player.inventory.getItemStack();
-
             if (slot != null && (((dragType == 1 || dragType == 4) && dragEvent == 0) || ((dragType == 5 || dragType == 6) && dragEvent == 1))) {
                 if (stack.getItem() instanceof ItemBundle) {
                     int itemAmount = ItemBundle.getItemAmount(stack);
-
                     if (slot.getHasStack() && slot.canTakeStack(player) && itemAmount < ConfigHandler.bundleLimit && ConfigHandler.canPutItem(slot.getStack())) {
                         bundles$insertItem(player, stack, slot.getStack(), slot);
                         cir.setReturnValue(ItemStack.EMPTY);
@@ -43,7 +41,6 @@ public abstract class ContainerMixin {
                 }
                 else if (slot.getStack().getItem() instanceof ItemBundle) {
                     int itemAmount = ItemBundle.getItemAmount(slot.getStack());
-
                     if (!stack.isEmpty() && itemAmount < ConfigHandler.bundleLimit && ConfigHandler.canPutItem(stack) && slot.canTakeStack(player)) {
                         bundles$insertItem(player, slot.getStack(), stack, slot);
                         cir.setReturnValue(ItemStack.EMPTY);
@@ -76,10 +73,8 @@ public abstract class ContainerMixin {
                 }
             }
         }
-
-        int slot = GuiScreen.isCtrlKeyDown() ? Integer.MAX_VALUE : 0;
+        int slot = 0;
         ItemStack st = ItemBundle.getItem(bundle, slot);
-
         if (Container.canAddItemToSlot(slotInventory, st, true) && slotInventory.isItemValid(st)) {
             if (player.world.isRemote) player.playSound(ModSounds.REMOVE, 1, 1);
             slotInventory.putStack(ItemBundle.removeItem(bundle, slot, Math.min(slotInventory.getItemStackLimit(st), st.getMaxStackSize())));
@@ -99,9 +94,8 @@ public abstract class ContainerMixin {
             }
         }
 
-        int slot = GuiScreen.isCtrlKeyDown() ? Integer.MAX_VALUE : 0;
+        int slot = 0;
         ItemStack st = ItemBundle.getItem(bundle, slot);
-
         if (player.world.isRemote) player.playSound(ModSounds.REMOVE, 1, 1);
         player.inventory.setItemStack(ItemBundle.removeItem(bundle, slot, st.getMaxStackSize()));
     }

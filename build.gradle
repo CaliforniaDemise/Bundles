@@ -48,6 +48,8 @@ minecraft {
         args << '-Dmixin.checks.interfaces=true'
         args << '-Dmixin.debug.export=true'
     }
+    args << "-Xms128m"
+    args << "-Xmx2048m"
     extraRunJvmArguments.addAll(args)
 
     // Include and use dependencies' Access Transformer files

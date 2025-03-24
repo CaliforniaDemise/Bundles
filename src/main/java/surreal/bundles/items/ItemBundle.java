@@ -134,34 +134,24 @@ public class ItemBundle extends Item {
     // NBT Utilities
     public static void addItem(ItemStack bundle, ItemStack stack) {
         NBTTagList list = getItemList(bundle);
-
         if (list == null) {
             NBTTagCompound compound = getOrCreateTag(bundle);
             list = new NBTTagList();
             compound.setTag(ITEMS, list);
         }
-
         int empty = getEmptyAmount(bundle);
-
         int itemSize = getItemstackAmount(stack);
         int itemCount = stack.getCount();
-
         int countToAdd = Math.min(itemCount, empty / itemSize);
         if (countToAdd == 0) return;
-
         int amountToAdd = Math.min(itemSize * itemCount, itemSize * countToAdd);
-
         addAmount(bundle, amountToAdd);
-
         NBTTagCompound compound = stack.serializeNBT();
-
         if (compound.hasKey("Count", Constants.NBT.TAG_BYTE)) {
             compound.setByte("Count", (byte) countToAdd);
         }
         else compound.setInteger("Count", countToAdd);
-
         list.appendTag(compound);
-
         stack.setCount(stack.getCount() - countToAdd);
     }
 
